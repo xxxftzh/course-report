@@ -59,41 +59,26 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#_3" class="nav-link">一、项目背景与任务介绍</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">一、项目背景与任务介绍</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#tensorflow" class="nav-link">二、第一个问题：缺少 TensorFlow 环境</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">二、问题发现</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#tensorflow_1" class="nav-link">三、第二个问题：TensorFlow 安装失败</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_8" class="nav-link">三、解决方案：模型重建与格式迁移</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#_4" class="nav-link">四、第三个问题：模型加载报错 — 版本不兼容</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_11" class="nav-link">四、模型评估结果与效果展示</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#_5" class="nav-link">五、解决方案：模型重建与格式迁移</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_13" class="nav-link">七、实验总结与收获</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#_6" class="nav-link">六、模型评估结果与效果展示</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#_7" class="nav-link">七、实验总结与收获</a>
-              <ul class="nav flex-column">
               </ul>
             </li>
         </ul>
@@ -104,139 +89,423 @@
 <h1 id="_1">交通流量预测项目 — 环境兼容与模型修复实验报告</h1>
 <h2 id="_2">课程汇报：深度学习环境问题排查与解决</h2>
 <hr />
-<h1 id="_3">一、项目背景与任务介绍</h1>
-<p>本次实验基于交通流量预测任务，使用深度学习模型对时序交通数据进行建模与预测。
-项目主要使用三种模型：
-- LSTM（长短期记忆网络）
-- GRU（门控循环单元）
-- SAEs（堆叠自编码器）</p>
-<p>项目目标：
-1. 搭建深度学习环境
-2. 完成模型训练与加载
-3. 实现交通流量预测
-4. 输出模型评估指标并可视化</p>
-<p>在运行项目源码时，我遇到了一系列环境与模型兼容问题，
-本次汇报将完整展示：<strong>问题出现 → 原因分析 → 解决方案 → 最终效果</strong>的全过程。</p>
+<h2 id="_3">一、项目背景与任务介绍</h2>
+<h3 id="1">1. 实验目的</h3>
+<p>本实验旨在通过神经网络模型（SAEs、LSTM、GRU）对交通流量进行预测，复刻已有的实验结果，并将其作为 NN 模块的应用案例，为后续在 nn 项目中进行改进提供基础。</p>
+<h3 id="2">2. 实验方法</h3>
+<h4 id="21">2.1 数据处理</h4>
+<ul>
+<li>
+<p>使用的数据集：<code>data/train.csv</code> 和 <code>data/test.csv</code></p>
+</li>
+<li>
+<p>数据预处理方法：</p>
+</li>
+<li>
+<p>数据标准化 / 归一化</p>
+</li>
+<li>
+<p>构建滑动窗口输入（lag = 12）</p>
+</li>
+<li>
+<p>训练集和测试集划分</p>
+</li>
+<li>
+<p>核心函数：<code>process_data(file1, file2, lag)</code></p>
+</li>
+</ul>
+<h4 id="22">2.2 模型结构</h4>
+<h5 id="lstm">LSTM 模型</h5>
+<ul>
+<li>
+<p>两层 LSTM，隐藏单元数为 64</p>
+</li>
+<li>
+<p>Dropout = 0.2</p>
+</li>
+<li>
+<p>输出层 Dense，sigmoid 激活</p>
+</li>
+<li>
+<p>输入形状：(12,1)</p>
+</li>
+</ul>
+<h5 id="gru">GRU 模型</h5>
+<ul>
+<li>
+<p>两层 GRU，隐藏单元数为 64</p>
+</li>
+<li>
+<p>Dropout = 0.2</p>
+</li>
+<li>
+<p>输出层 Dense，sigmoid 激活</p>
+</li>
+<li>
+<p>输入形状：(12,1)</p>
+</li>
+</ul>
+<h5 id="saes">SAEs（堆叠自编码器）</h5>
+<ul>
+<li>
+<p>三个单独的 SAE 模块，每个隐藏层为 400 单元</p>
+</li>
+<li>
+<p>Dropout = 0.2</p>
+</li>
+<li>
+<p>输出层 Dense，sigmoid 激活</p>
+</li>
+<li>
+<p>输入形状：(12,)</p>
+</li>
+</ul>
+<h4 id="23">2.3 训练过程</h4>
+<ul>
+<li>
+<p>损失函数：均方误差（MSE）</p>
+</li>
+<li>
+<p>优化器：RMSProp</p>
+</li>
+<li>
+<p>训练参数：</p>
+</li>
+<li>
+<p>Batch size = 256</p>
+</li>
+<li>
+<p>Epochs = 600</p>
+</li>
+<li>
+<p>验证集比例 = 0.05</p>
+</li>
+<li>
+<p>使用 EarlyStopping（可选）</p>
+</li>
+<li>
+<p>核心函数：</p>
+</li>
+<li>
+<p><code>train_model()</code>：训练 LSTM/GRU/SAEs 最终模型</p>
+</li>
+<li>
+<p><code>train_seas()</code>：训练 SAE 堆叠模块并合并权重</p>
+</li>
+</ul>
+<h4 id="24">2.4 预测与评估</h4>
+<ul>
+<li>
+<p>将预测结果逆归一化为原始流量</p>
+</li>
+<li>
+<p>评估指标：</p>
+</li>
+<li>
+<p>MAPE（平均绝对百分比误差）</p>
+</li>
+<li>
+<p>MAE（平均绝对误差）</p>
+</li>
+<li>
+<p>MSE（均方误差）及 RMSE</p>
+</li>
+<li>
+<p>R²（决定系数）</p>
+</li>
+<li>
+<p>Explained Variance Score（解释方差）</p>
+</li>
+<li>
+<p>绘图函数：<code>plot_results()</code>，比较真实值与预测值趋势</p>
+</li>
+</ul>
+<h3 id="3">3. 实验流程</h3>
+<h4 id="31-process_data-x_train-y_train-x_test-y_test">3.1数据处理：调用 process_data() 获得训练输入 X_train, y_train，测试输入 X_test, y_test</h4>
+<h4 id="32">3.2模型训练：</h4>
+<ul>
+<li>
+<p>LSTM / GRU：train_model()</p>
+</li>
+<li>
+<p>SAEs：train_seas()</p>
+</li>
+</ul>
+<h4 id="33modelh5">3.3模型保存：model/&lt;模型名&gt;.h5</h4>
+<h4 id="34">3.4测试预测：</h4>
+<ul>
+<li>
+<p>对 X_test 进行预测</p>
+</li>
+<li>
+<p>逆归一化</p>
+</li>
+</ul>
+<h4 id="35">3.5模型评估：</h4>
+<ul>
+<li>
+<p>打印 MAPE、MAE、MSE、RMSE、R²</p>
+</li>
+<li>
+<p>绘制预测 vs 真实曲线</p>
+</li>
+</ul>
+<h3 id="4">4. 模块说明</h3>
+<p><img alt="模块说明" src="images/%E5%9B%BE%E7%89%8716.png" /></p>
+<h3 id="5">5. 实验结果</h3>
+<p>完整模型结果表</p>
+<p><img alt="实验结果表" src="images/%E5%9B%BE%E7%89%8717.png" /></p>
+<p>完整模型结果图</p>
+<p><img alt="实验结果图" src="images/%E5%9B%BE%E7%89%8718.png" /></p>
+<p>在运行项目源码时，我遇到了一系列环境与模型兼容问题，本次汇报将完整展示：<strong>问题出现 → 原因分析 → 解决方案 → 最终效果</strong>的全过程。</p>
 <hr />
-<h1 id="tensorflow">二、第一个问题：缺少 TensorFlow 环境</h1>
+<h2 id="_4">二、问题发现</h2>
+<h3 id="tensorflow">第一个问题：缺少 TensorFlow 环境</h3>
 <p>项目运行第一步直接报错：ModuleNotFoundError: No module named 'tensorflow'</p>
-<p><img alt="缺少TensorFlow报错" src="images/%E5%9B%BE%E7%89%8715.png" /></p>
-<p>原因很明确：当前虚拟环境没有安装 TensorFlow 框架，
-Keras 依赖 TensorFlow 作为后端，无法正常导入。</p>
-<p>于是我使用清华镜像源进行安装：pip install tensorflow -i https://pypi.tuna.tsinghua.edu.cn/simple</p>
+<p>原因很明确：当前虚拟环境没有安装 TensorFlow 框架，Keras 依赖 TensorFlow 作为后端，无法正常导入。</p>
+<p>于是我使用清华镜像源进行安装：<code>pip install tensorflow -i https://pypi.tuna.tsinghua.edu.cn/simple</code></p>
 <hr />
-<h1 id="tensorflow_1">三、第二个问题：TensorFlow 安装失败</h1>
-<p>安装时出现新的错误：ERROR: No matching distribution found for tensorflow
-<img alt="TensorFlow安装失败" src="images/%E5%9B%BE%E7%89%871.png" /></p>
-<p>这是非常典型的<strong>Python 版本不匹配</strong>问题。
-我查阅官方文档后确认：
-- TensorFlow 2.x 支持 Python 版本：<strong>3.10 ~ 3.13</strong>
-<img alt="TensorFlow支持版本检查" src="images/%E5%9B%BE%E7%89%873.png" />
-- 我本地使用的 Python 版本不在支持范围内</p>
+<h3 id="tensorflow_1">第二个问题：TensorFlow 安装失败</h3>
+<p>安装时出现新的错误：ERROR: No matching distribution found for tensorflow</p>
+<p><img alt="TensorFlow安装失败" src="images/%E5%9B%BE%E7%89%871.png" /></p>
+<p>这是非常典型的<strong>Python 版本不匹配</strong>问题。</p>
+<p>我查阅官方文档后确认：</p>
+<ul>
+<li>TensorFlow 2.x 支持 Python 版本：<strong>3.10 ~ 3.13</strong></li>
+</ul>
+<p><img alt="TensorFlow支持版本检查" src="images/%E5%9B%BE%E7%89%873.png" /></p>
+<ul>
+<li>我本地使用的 Python 版本不在支持范围内</li>
+</ul>
 <p><img alt="Python版本检查" src="images/%E5%9B%BE%E7%89%874.png" /></p>
-<p>解决方案：
-1. 卸载原有 Python
-2. 重新安装 <strong>Python 3.11</strong>（稳定兼容版）
-3. 新建虚拟环境，重新安装依赖</p>
+<h4 id="_5">解决方案：</h4>
+<ol>
+<li>
+<p>卸载原有 Python</p>
+</li>
+<li>
+<p>重新安装 <strong>Python 3.11</strong>（稳定兼容版）</p>
+</li>
+<li>
+<p>新建虚拟环境，重新安装依赖</p>
+</li>
+</ol>
 <p><img alt="重新安装python3.11版本后安装TensorFlow成功" src="images/%E5%9B%BE%E7%89%876.png" /></p>
-<p>安装完成后测试导入：
-```python
+<p>安装完成后测试导入：</p>
+<pre><code class="language-python">
 import tensorflow as tf
-print(tf.<strong>version</strong>)</p>
-<p>然后开始尝试训练模型
-<img alt="模型训练过程" src="images/%E5%9B%BE%E7%89%877.png" /></p>
-<p>模型训练成功后跑出loss值
-<img alt="loss值" src="images/%E5%9B%BE%E7%89%878.png" /></p>
+
+print(tf.__version__)
+
+</code></pre>
+<p>然后开始尝试训练模型</p>
+<p><img alt="模型训练过程" src="images/%E5%9B%BE%E7%89%877.png" /></p>
+<p>模型训练成功后跑出loss值</p>
+<p><img alt="loss值" src="images/%E5%9B%BE%E7%89%878.png" /></p>
 <hr />
-<h1 id="_4">四、第三个问题：模型加载报错 — 版本不兼容</h1>
-<p>运行主程序，发生报错：ValueError: Could not deserialize 'keras.metrics.mse'
-<img alt="keras发生报错" src="images/%E5%9B%BE%E7%89%879.png" /></p>
-<p>核心原因：
-项目提供的模型文件（.h5）是旧版本 Keras/TensorFlow 保存
-新版本 Keras 对损失函数、层结构的序列化规则发生改变
-直接加载旧模型会出现反序列化失败
-同时我还发现：
-LSTM 模型可以正常加载
-GRU 模型加载直接报错：参数不匹配
-SAEs 模型权重加载异常
-<img alt="模型加载异常" src="images/%E5%9B%BE%E7%89%8710.png" />
-单独测试了LSTM模型，发现效果正常
-<img alt="单个模型测试效果" src="images/%E5%9B%BE%E7%89%8711.png" /></p>
+<h3 id="_6">第三个问题：模型加载报错 — 版本不兼容</h3>
+<p>运行主程序，发生报错：ValueError: Could not deserialize 'keras.metrics.mse'</p>
+<p><img alt="keras发生报错" src="images/%E5%9B%BE%E7%89%879.png" /></p>
+<h4 id="_7">核心原因：</h4>
+<p>项目提供的模型文件（.h5）是旧版本 Keras/TensorFlow 保存，新版本 Keras 对损失函数、层结构的序列化规则发生改变，直接加载旧模型会出现反序列化失败。</p>
+<p>同时我还发现：</p>
+<ul>
+<li>
+<p>LSTM 模型可以正常加载</p>
+</li>
+<li>
+<p>GRU 模型加载直接报错：参数不匹配</p>
+</li>
+<li>
+<p>SAEs 模型权重加载异常</p>
+</li>
+</ul>
+<p><img alt="模型加载异常" src="images/%E5%9B%BE%E7%89%8710.png" /></p>
+<p>单独测试了LSTM模型，发现效果正常</p>
+<p><img alt="单个模型测试效果" src="images/%E5%9B%BE%E7%89%8711.png" /></p>
 <hr />
-<h1 id="_5">五、解决方案：模型重建与格式迁移</h1>
-<p>我采用的核心方案：不直接加载旧模型，而是先重建结构，再加载权重
-步骤：
-删除旧的 gru.h5、saes.h5 文件
-使用当前环境重新定义模型结构
-加载旧权重文件
-保存为新版 .keras 格式</p>
-<p>SAEs 模型修复代码
+<h2 id="_8">三、解决方案：模型重建与格式迁移</h2>
+<p>我采用的核心方案：不直接加载旧模型，而是先重建结构，再加载权重</p>
+<h4 id="_9">步骤：</h4>
+<ol>
+<li>
+<p>删除旧的 gru.h5、saes.h5 文件</p>
+</li>
+<li>
+<p>使用当前环境重新定义模型结构</p>
+</li>
+<li>
+<p>加载旧权重文件</p>
+</li>
+<li>
+<p>保存为新版 .keras 格式</p>
+</li>
+</ol>
+<h4 id="saes_1">SAEs 模型修复代码</h4>
+<pre><code class="language-python">
 models = mymodel.get_saes([12, 400, 400, 400, 1])
+
 saes = models[-1]
-saes.load_weights("model/saes.h5")
-saes.save("model/saes_fixed.keras")
-<img alt="SAEs模型修复成功" src="images/%E5%9B%BE%E7%89%8712.png" />
-SAEs 已经修好了
-重建 SAEs 结构 
-成功加载 model/saes.h5 权重 
-成功保存为 model/saes_fixed.keras 
-而且这和 model.py 里的 SAEs 结构、train.py 里的 SAEs 参数是一致的。model.py 里最后一个 saes 就是主模型，train.py 里训练的也是 get_saes([12, 400, 400, 400, 1])。</p>
-<p>同理GRU 模型修复代码
+
+saes.load_weights(&quot;model/saes.h5&quot;)
+
+saes.save(&quot;model/saes_fixed.keras&quot;)
+
+</code></pre>
+<p><img alt="SAEs模型修复成功" src="images/%E5%9B%BE%E7%89%8712.png" /></p>
+<p>SAEs 已经修好了：</p>
+<ul>
+<li>
+<p>重建 SAEs 结构</p>
+</li>
+<li>
+<p>成功加载 model/saes.h5 权重</p>
+</li>
+<li>
+<p>成功保存为 model/saes_fixed.keras</p>
+</li>
+</ul>
+<p>而且这和 model.py 里的 SAEs 结构、train.py 里的 SAEs 参数是一致的。model.py 里最后一个 saes 就是主模型，train.py 里训练的也是 get_saes([12, 400, 400, 400, 1])。</p>
+<h4 id="gru_1">同理 GRU 模型修复代码</h4>
+<pre><code class="language-python">
 model = mymodel.get_gru([12, 64, 64, 1])
-model.load_weights("model/gru.h5")
-model.save("model/gru_fixed.keras")
-<img alt="GRU模型修复成功" src="images/%E5%9B%BE%E7%89%8713.png" /></p>
-<p>修复后：
-GRU 加载成功
-SAEs 加载成功
-LSTM 原本正常，可直接使用</p>
-<p>更新模型成功，现在三个模型的状态是：
-LSTM：可直接用 model/lstm.h5 
-GRU：已成功转换成 model/gru_fixed.keras 
-SAEs：已成功转换成 model/saes_fixed.keras 
-现在不用再直接加载旧的 gru.h5 和 saes.h5 了。</p>
+
+model.load_weights(&quot;model/gru.h5&quot;)
+
+model.save(&quot;model/gru_fixed.keras&quot;)
+
+</code></pre>
+<p><img alt="GRU模型修复成功" src="images/%E5%9B%BE%E7%89%8713.png" /></p>
+<h4 id="_10">修复后：</h4>
+<ul>
+<li>
+<p>GRU 加载成功</p>
+</li>
+<li>
+<p>SAEs 加载成功</p>
+</li>
+<li>
+<p>LSTM 原本正常，可直接使用</p>
+</li>
+</ul>
+<p>更新模型成功，现在三个模型的状态是：</p>
+<ul>
+<li>
+<p>LSTM：可直接用 model/lstm.h5</p>
+</li>
+<li>
+<p>GRU：已成功转换成 model/gru_fixed.keras</p>
+</li>
+<li>
+<p>SAEs：已成功转换成 model/saes_fixed.keras</p>
+</li>
+</ul>
+<p>现在不用再直接加载旧的 gru.h5 和 saes.h5 了。</p>
 <hr />
-<h1 id="_6">六、模型评估结果与效果展示</h1>
-<p>修复完成后重新运行主程序，
-三个模型全部正常加载、预测、输出指标。
-<img alt="模型全部加载运行成功" src="images/%E5%9B%BE%E7%89%8714.png" /></p>
-<p>LSTM 模型评估
-解释方差分数：0.9387
-平均绝对百分比误差：21.47%
-均方误差：101.19
-决定系数 R²：0.9377
-GRU 模型评估
-解释方差分数：0.9357
-平均绝对百分比误差：20.25%
-均方误差：105.03
-决定系数 R²：0.9353
-SAEs 模型评估
-解释方差分数：0.9443
-平均绝对百分比误差：17.80%
-均方误差：92.08
-决定系数 R²：0.9433
-从结果可以看出：
-三个模型均达到较高精度
-SAEs 表现最优，误差最低
-GRU 与 LSTM 表现接近，符合时序模型预期
-项目整体达到实验设计目标</p>
+<h2 id="_11">四、模型评估结果与效果展示</h2>
+<p>修复完成后重新运行主程序，三个模型全部正常加载、预测、输出指标。</p>
+<p><img alt="模型全部加载运行成功" src="images/%E5%9B%BE%E7%89%8714.png" /></p>
+<h3 id="lstm_1">LSTM 模型评估</h3>
+<ul>
+<li>
+<p>解释方差分数：0.9387</p>
+</li>
+<li>
+<p>平均绝对百分比误差：21.47%</p>
+</li>
+<li>
+<p>均方误差：101.19</p>
+</li>
+<li>
+<p>决定系数 R²：0.9377</p>
+</li>
+</ul>
+<h3 id="gru_2">GRU 模型评估</h3>
+<ul>
+<li>
+<p>解释方差分数：0.9357</p>
+</li>
+<li>
+<p>平均绝对百分比误差：20.25%</p>
+</li>
+<li>
+<p>均方误差：105.03</p>
+</li>
+<li>
+<p>决定系数 R²：0.9353</p>
+</li>
+</ul>
+<h3 id="saes_2">SAEs 模型评估</h3>
+<ul>
+<li>
+<p>解释方差分数：0.9443</p>
+</li>
+<li>
+<p>平均绝对百分比误差：17.80%</p>
+</li>
+<li>
+<p>均方误差：92.08</p>
+</li>
+<li>
+<p>决定系数 R²：0.9433</p>
+</li>
+</ul>
+<h4 id="_12">结果分析：</h4>
+<ul>
+<li>
+<p>三个模型均达到较高精度</p>
+</li>
+<li>
+<p>SAEs 表现最优，误差最低</p>
+</li>
+<li>
+<p>GRU 与 LSTM 表现接近，符合时序模型预期</p>
+</li>
+<li>
+<p>项目整体达到实验设计目标</p>
+</li>
+</ul>
 <hr />
-<h1 id="_7">七、实验总结与收获</h1>
-<p>本次实验让我掌握了以下关键技能：
-深度学习环境排查能力
-学会判断 Python 与框架版本匹配问题
-掌握使用国内镜像加速安装的方法
-理解虚拟环境的重要性
-模型兼容问题处理
-理解 .h5 与 .keras 模型格式差异
-掌握 “重建结构 + 加载权重” 的修复方法
-学会处理 Keras 版本升级带来的序列化问题
-项目排错思维
-从报错信息定位根源
-分步验证，缩小问题范围
-先环境、后依赖、再模型
-深度学习项目完整流程
-环境搭建 → 问题修复 → 模型训练 → 评估分析 → 结果展示</p></div>
+<h2 id="_13">七、实验总结与收获</h2>
+<p>本次实验让我掌握了以下关键技能：</p>
+<h3 id="1_1">1. 深度学习环境排查能力</h3>
+<ul>
+<li>
+<p>学会判断 Python 与框架版本匹配问题</p>
+</li>
+<li>
+<p>掌握使用国内镜像加速安装的方法</p>
+</li>
+<li>
+<p>理解虚拟环境的重要性</p>
+</li>
+</ul>
+<h3 id="2_1">2. 模型兼容问题处理</h3>
+<ul>
+<li>
+<p>理解 .h5 与 .keras 模型格式差异</p>
+</li>
+<li>
+<p>掌握 “重建结构 + 加载权重” 的修复方法</p>
+</li>
+<li>
+<p>学会处理 Keras 版本升级带来的序列化问题</p>
+</li>
+</ul>
+<h3 id="3_1">3. 项目排错思维</h3>
+<ul>
+<li>
+<p>从报错信息定位根源</p>
+</li>
+<li>
+<p>分步验证，缩小问题范围</p>
+</li>
+<li>
+<p>先环境、后依赖、再模型</p>
+</li>
+</ul>
+<h3 id="4_1">4. 深度学习项目完整流程</h3>
+<p>环境搭建 → 问题修复 → 模型训练 → 评估分析 → 结果展示</p></div>
             </div>
         </div>
 
@@ -318,5 +587,5 @@ GRU 与 LSTM 表现接近，符合时序模型预期
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-04-20 11:53:37.812439+00:00
+Build Date UTC : 2026-04-21 08:59:52.975992+00:00
 -->
