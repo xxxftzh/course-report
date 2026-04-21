@@ -67,15 +67,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_8" class="nav-link">三、解决方案：模型重建与格式迁移</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_11" class="nav-link">三、模型评估结果与效果展示</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_11" class="nav-link">四、模型评估结果与效果展示</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_13" class="nav-link">七、实验总结与收获</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_13" class="nav-link">四、实验总结与收获</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -323,8 +319,7 @@ print(tf.__version__)
 <p><img alt="模型加载异常" src="images/%E5%9B%BE%E7%89%8710.png" /></p>
 <p>单独测试了LSTM模型，发现效果正常</p>
 <p><img alt="单个模型测试效果" src="images/%E5%9B%BE%E7%89%8711.png" /></p>
-<hr />
-<h2 id="_8">三、解决方案：模型重建与格式迁移</h2>
+<h4 id="_8">解决方案：模型重建与格式迁移</h4>
 <p>我采用的核心方案：不直接加载旧模型，而是先重建结构，再加载权重</p>
 <h4 id="_9">步骤：</h4>
 <ol>
@@ -402,7 +397,7 @@ model.save(&quot;model/gru_fixed.keras&quot;)
 </ul>
 <p>现在不用再直接加载旧的 gru.h5 和 saes.h5 了。</p>
 <hr />
-<h2 id="_11">四、模型评估结果与效果展示</h2>
+<h2 id="_11">三、模型评估结果与效果展示</h2>
 <p>修复完成后重新运行主程序，三个模型全部正常加载、预测、输出指标。</p>
 <p><img alt="模型全部加载运行成功" src="images/%E5%9B%BE%E7%89%8714.png" /></p>
 <h3 id="lstm_1">LSTM 模型评估</h3>
@@ -466,7 +461,7 @@ model.save(&quot;model/gru_fixed.keras&quot;)
 </li>
 </ul>
 <hr />
-<h2 id="_13">七、实验总结与收获</h2>
+<h2 id="_13">四、实验总结与收获</h2>
 <p>本次实验让我掌握了以下关键技能：</p>
 <h3 id="1_1">1. 深度学习环境排查能力</h3>
 <ul>
@@ -587,5 +582,5 @@ model.save(&quot;model/gru_fixed.keras&quot;)
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-04-21 08:59:52.975992+00:00
+Build Date UTC : 2026-04-21 09:14:01.910351+00:00
 -->
